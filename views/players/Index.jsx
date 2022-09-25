@@ -75,7 +75,7 @@ class Index extends React.Component {
 
           <a
             className="link-button player-link-button"
-            href="/players">return to player index
+            href="/player/new">new player
           </a>
         </div>
 

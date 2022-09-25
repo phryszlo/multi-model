@@ -201,6 +201,9 @@ app.get('/players', async (req, res) => {
     });
 })
 
+app.get('/player/new', (req, res) => {
+  res.render('players/Player');
+})
 
 app.get('/player/:id', async (req, res) => {
 
@@ -212,31 +215,8 @@ app.get('/player/:id', async (req, res) => {
     })
 });
 
-// try {
-//   await Players.findById(req.params.id)
-//     .then((foundPlayer) => {
-//       console.log(`player:id first then: ${foundPlayer}`);
-//       foundPlayer.findById(foundPlayer.id).populate("vehicles")
-//         .then((foundPlayer) => {
-//           console.log(`player:id second then: ${foundPlayer}`);
 
-//           foundPlayer.findById(foundPlayer.id).populate("weapons")
-//             .then((foundPlayer) => {
-//               console.log(`player:id third then: ${foundPlayer}`);
 
-//               res.render('players/Show', {
-//                 player: foundPlayer,
-//                 vehicles: foundVehicles,
-//                 weapons: foundWeapons,
-//                 mode: 'show',
-//               });
-//             })
-//         })
-//     })
-// }
-// catch (err) {
-//   res.json(err);
-// }
 
 app.patch('/player/:id/new-vehicle/:vid', async (req, res) => {
   await Players.findByIdAndUpdate(req.params.id,

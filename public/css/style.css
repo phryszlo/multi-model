@@ -138,6 +138,11 @@ margin: 0;
   padding: .5em;
 }
 
+.player-form {
+  min-width: 40vw;
+  max-width: 100%;
+}
+
 .form-field {
   display: flex;
   flex-direction: column;
@@ -150,16 +155,40 @@ margin: 0;
 .form-label {
   width: 96%;
 }
+
+.player-link-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+}
 .link-button {
+  display: block;
+  margin-top: 1em;
+  text-decoration: none;
+  color: var(--color2);
+  border: .5px solid var(--color2);
+  padding: .3em 0;
+  text-align: center;
+  width: 100%;
+}
+.link-button:hover {
+  color: var(--color0);
+  border: .5px solid var(--color0);
+}
+
+.save-button {
+  background-color: #0000;
   margin-top: 1em;
   text-decoration: none;
   color: var(--color2);
   border: .5px solid var(--color2);
   padding: .5em 1em;
+  width: 100%;
+
 }
-.link-button:hover {
-  color: var(--color1);
-  border: .5px solid var(--color1);
+.save-button:hover {
+  color: var(--color0);
+  border: .5px solid var(--color0);
 }
 
 .td-link {
