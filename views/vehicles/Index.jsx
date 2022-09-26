@@ -32,7 +32,7 @@ class Index extends React.Component {
                     <td key={`td1-${index}`} className="td model-field">
                       {vehicle.model}
                     </td>
-                    <td key={`td2-${index}`} className="td owners-field">
+                    <td key={`td2-${index}`} className="td owners-field" style={{fontSize: "12px"}}>
                       not implemented
                     </td>
 

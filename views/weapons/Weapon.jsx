@@ -1,31 +1,44 @@
 const React = require('react');
 const DefaultLayout = require('../layouts/Default');
 
-class vehicle extends React.Component {
+class weapon extends React.Component {
 
   render() {
-    const { vehicle } = this.props;
-    const isNew = vehicle ? false : true;
+    const { weapon } = this.props;
+    const isNew = weapon ? false : true;
 
-    console.log(isNew ? 'no vehicle received' : `vehicle.jsx vehicle: ${vehicle}`);
+    console.log(isNew ? 'no weapon received' : `weapon.jsx weapon: ${weapon}`);
     return (
       <DefaultLayout title={
-        isNew ? 'new vehicle'
-          : `${vehicle.make} ${vehicle.model}`
+        isNew ? 'new weapon'
+          : `${weapon.name}`
       }>
         <div className="layout-wrapper">
           <h1 className="head-title">{
-            isNew ? 'new vehicle'
-              : `${vehicle.make} ${vehicle.model}`
+            isNew ? 'new weapon'
+              : `${weapon.name} ${weapon.class}`
           }</h1>
           <form
-            className="vehicle-form"
+            className="weapon-form"
             action={
-              isNew ? '/vehicle/'
-                : `/vehicle/${vehicle.id}?_method=PUT`
+              isNew ? '/weapon/'
+                : `/weapon/${weapon.id}?_method=PUT`
             }
             method="POST"
           >
+            <div className="form-field">
+              <div className="form-label">name</div>
+              <input
+                className="form-input"
+                type="text"
+                name="name"
+                defaultValue={
+                  isNew ? ''
+                    : weapon.name
+                }
+                required
+              />
+            </div>
             <div className="form-field">
               <div className="form-label">class</div>
               <input
@@ -34,33 +47,20 @@ class vehicle extends React.Component {
                 name="class"
                 defaultValue={
                   isNew ? ''
-                    : vehicle.class
+                    : weapon.class
                 }
                 required
               />
             </div>
             <div className="form-field">
-              <div className="form-label">make</div>
+              <div className="form-label">damage</div>
               <input
                 className="form-input"
                 type="text"
-                name="make"
+                name="damage"
                 defaultValue={
                   isNew ? ''
-                    : vehicle.make
-                }
-                required
-              />
-            </div>
-            <div className="form-field">
-              <div className="form-label">model</div>
-              <input
-                className="form-input"
-                type="text"
-                name="model"
-                defaultValue={
-                  isNew ? ''
-                    : vehicle.model
+                    : weapon.damage
                 }
                 required
               />
@@ -69,17 +69,17 @@ class vehicle extends React.Component {
 
             {/* ☣️☣️☣️☣️☣️☣️☣️☣️ BUTTONS ☣️☣️☣️☣️☣️☣️☣️☣️ */}
 
-            <div className="vehicle-link-button-wrapper">
+            <div className="weapon-link-button-wrapper">
               {
                 isNew ?
                   <input t
                     type="submit"
                     className="save-button"
-                    href="/vehicles"
-                    value="save vehicle" />
+                    href="/weapons"
+                    value="save weapon" />
                   : ''
               }
-              <a className="link-button vehicle-link-button" href="/vehicles">vehicle index</a>
+              <a className="link-button weapon-link-button" href="/weapons">weapon index</a>
             </div>
           </form>
         </div>
@@ -88,4 +88,4 @@ class vehicle extends React.Component {
   }
 }
 
-module.exports = vehicle;
+module.exports = weapon;

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+var favicon = require('serve-favicon');
 
 const Players = require('./models/player');
 const Weapons = require('./models/weapon');
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 4000;
 require('dotenv').config();
 
 app.use(express.static('public'));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
@@ -79,8 +81,8 @@ app.get('/players/seed', (req, res) => {
     ref: "Player"
   }
 */
-app.get('/weapons/seed', (req, res) => {
-  Weapons.create([
+app.get('/weapons/seed', async (req, res) => {
+  await Weapons.create([
     {
       name: "plasma flinger",
       class: "blaster",
@@ -96,10 +98,14 @@ app.get('/weapons/seed', (req, res) => {
       class: "blackjack",
       damage: 2,
     }
-  ],
-    (err, data) => {
-      res.redirect("/dash");
-      // res.redirect("/weapons");
+  ])
+    .then(() => {
+      console.log('wtfn?');
+      res.redirect('/weapons');
+      console.log('wtfn?after');
+    })
+    .catch((err) => {
+      console.log(`${err}`);
     })
 })
 
@@ -115,8 +121,8 @@ const vehicleSchema = new Schema({
   }
 });
 */
-app.get('/vehicles/seed', (req, res) => {
-  Vehicles.create([
+app.get('/vehicles/seed', async (req, res) => {
+  await Vehicles.create([
     {
       class: "car",
       make: "ford",
@@ -124,9 +130,9 @@ app.get('/vehicles/seed', (req, res) => {
       owner: "632f0e73e2b958f280641c4b"
     },
     {
-      class: "car",
-      make: "audi",
-      model: "x11",
+      class: "schooner",
+      make: "maserati",
+      model: "albatross",
       owner: "632f0e73e2b958f280641c4c"
 
     },
@@ -136,10 +142,12 @@ app.get('/vehicles/seed', (req, res) => {
       model: "eco-thruster",
       owner: "632f0e73e2b958f280641c4d"
     }
-  ],
-    (err, data) => {
-      res.redirect("/dash");
-      // res.redirect("/vehicles");
+  ])
+    .then(() => {
+      res.redirect('/vehicles');
+    })
+    .catch((err) => {
+      console.log(`${err}`);
     })
 })
 
@@ -160,24 +168,73 @@ app.get('/players/seedvehicles', async (req, res) => {
     })
 
   await Players.find()
-    .then((playerIds) => {
-      playerIds.forEach((player, index) => {
+    .then((foundPlayers) => {
+      foundPlayers.forEach((player, index) => {
         let rndIdx = Math.floor(Math.random() * vehicleIds.length);
 
         Players.findByIdAndUpdate(player.id,
           { $push: { vehicles: vehicleIds[rndIdx] } },
           { new: true, useFindAndModify: false })
-          .then((foundPlayer) => {
-            res.render('players/Player', {
-              player: foundPlayer,
-            });
+          .populate("weapons")
+          .populate("vehicles")
+          .catch((err) => {
+            console.log('what is happening?', err);
           })
-
       })
+    })
+    .then(() => {
+      setTimeout(() => {
+        res.redirect('/players');
+      }, 700);
     })
     .catch((err) => {
       res.json(err);
     })
+
+})
+
+app.get('/players/seedweapons', async (req, res) => {
+  const weaponIds = [];
+  // There must be a way to ONLY return the _id field from the find(all)
+  // but as of now I can't find it. This seems inefficient.
+  await Weapons.find()
+    .then((foundWeapons) => {
+      foundWeapons.forEach((weapon) => {
+        weaponIds.push(weapon.id);
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+  console.log(weaponIds);
+
+  await Players.find()
+    .then((foundPlayers) => {
+      foundPlayers.forEach((player, index) => {
+        let rndIdx = Math.floor(Math.random() * weaponIds.length);
+
+        Players.findByIdAndUpdate(player.id,
+          { $push: { weapons: weaponIds[rndIdx] } },
+          { new: true, useFindAndModify: false })
+          .populate("vehicles")
+          .populate("weapons")
+          .catch((err) => {
+            console.log('what is happening?', err);
+          })
+      })
+
+
+    })
+    .then(() => {
+      setTimeout(() => {
+        res.redirect('/players');
+      }, 700);
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+
 })
 
 
@@ -191,6 +248,7 @@ app.get('/dash', (req, res) => {
 //  PLAYER ROUTES
 app.get('/players', async (req, res) => {
   await Players.find()
+    .populate("vehicles").populate("weapons")
     .then((allPlayers) => {
       res.render('players/Index', {
         players: allPlayers,
@@ -205,6 +263,24 @@ app.get('/player/new', (req, res) => {
   res.render('players/Player');
 })
 
+app.post('/player', async (req, res) => {
+  await Players.create(req.body)
+    .then((newPlayer) => {
+      res.redirect('/players')
+    })
+})
+
+app.delete('/player/:id', async (req, res) => {
+  await Players.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.redirect('/players');
+    })
+    .catch((err) => {
+      res.json();
+    })
+})
+
+// =========PLAYER: GET ONE BY ID ============
 app.get('/player/:id', async (req, res) => {
 
   await Players.findById(req.params.id).populate("vehicles")
@@ -236,13 +312,36 @@ app.patch('/player/:id/new-vehicle/:vid', async (req, res) => {
 // 🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢
 //  WEAPON ROUTES
 app.get('/weapons', (req, res) => {
-  Weapon.find({}, (err, allWeapons) => {
+  Weapons.find({}, (err, allWeapons) => {
     console.log(err);
 
-    res.render("das", {
+    res.render("weapons/Index", {
       weapons: allWeapons,
     });
   });
+})
+
+
+app.get('/weapon/:id', async (req, res) => {
+  await Weapons.findById(req.params.id)
+    .then((foundWeapon) => {
+      res.render('weapons/Weapon', {
+        weapon: foundWeapon,
+      })
+    })
+    .catch((err) => {
+      res.json();
+    })
+})
+
+app.delete('/weapon/:id', async (req, res) => {
+  await Weapons.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.redirect('/weapons');
+    })
+    .catch((err) => {
+      res.json();
+    })
 })
 
 // 🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢
@@ -259,14 +358,27 @@ app.get('/vehicles', async (req, res) => {
     });
 })
 
+app.delete('/vehicle/:id', async (req, res) => {
+  await Vehicles.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.redirect('/vehicles');
+    })
+    .catch((err) => {
+      res.json();
+    })
+})
+
 
 app.get('/vehicle/:id', async (req, res) => {
 
-  await Vehicle.findById(req.params.id).populate("vehicles")
+  await Vehicles.findById(req.params.id)
     .then((result) => {
       res.render('vehicles/Vehicle', {
         vehicle: result,
       })
+    })
+    .catch((err) => {
+      res.json();
     })
 });
 

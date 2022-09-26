@@ -31,7 +31,7 @@ class Player extends React.Component {
               <input
                 className="form-input"
                 type="text"
-                name="title"
+                name="name"
                 defaultValue={
                   isNew ? ''
                     : player.name
@@ -44,7 +44,7 @@ class Player extends React.Component {
               <input
                 className="form-input"
                 type="text"
-                name="title"
+                name="class"
                 defaultValue={
                   isNew ? ''
                     : player.class
@@ -57,7 +57,7 @@ class Player extends React.Component {
               <input
                 className="form-input"
                 type="text"
-                name="title"
+                name="level"
                 defaultValue={
                   isNew ? ''
                     : player.level

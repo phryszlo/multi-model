@@ -13,6 +13,7 @@ class Index extends React.Component {
           <table className="player-map">
             <thead>
               <tr>
+                <th></th>
                 <th>name</th>
                 <th>class</th>
                 <th>level</th>
@@ -23,7 +24,16 @@ class Index extends React.Component {
             {
               players.map((player, index) => {
                 return (
+
                   <tr key={`tr-${index}`}>
+                    <td key={`td-1-${index}`} data-id={player.id} className="td delete-field">
+                      <form
+                        action={`/player//delete/${player.id}?_method=DELETE`}
+                        className="delete-player-form"
+                        method="POST">
+                          <input type="submit" value="delete" className="btn-delete" />
+                      </form>
+                    </td>
                     <td key={`td-${index}`} data-id={player.id} className="td name-field">
                       <a className="td-link" href={`/player/${player.id}`}>{player.name}</a>
                     </td>
