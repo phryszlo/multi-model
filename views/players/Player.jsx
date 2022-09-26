@@ -2,10 +2,25 @@ const React = require('react');
 const DefaultLayout = require('../layouts/Default');
 
 class Player extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.editMode = false;
+  //   // this.editClick = this.editClick.bind(this);
+  // }
+
+  editMode = false;
+
+
 
   render() {
     const { player } = this.props;
     const isNew = player ? false : true;
+    // let editMode = false;
+
+    const editClick = () => {
+      console.log('editClick reached');
+      this.editMode = !this.editMode;
+    }
 
     console.log(isNew ? 'no player received' : `Player.jsx player: ${player}`);
     return (
@@ -153,7 +168,7 @@ class Player extends React.Component {
                               {`${weapon.class}`}
                             </td>
                             <td key={`we2-${index}`}
-                              className="td weapon-damage-field">
+                              className="td damage-field">
                               {`${weapon.damage}`}
                             </td>
                           </tr>
@@ -171,8 +186,16 @@ class Player extends React.Component {
 
             {/* ☣️☣️☣️☣️☣️☣️☣️☣️ BUTTONS ☣️☣️☣️☣️☣️☣️☣️☣️ */}
 
-            <div className="bottom-link-buttons-wrapper">
-              {
+            <div className="form-controls-wrapper">
+            <input
+                    type="submit"
+                    className="save-button"
+                    href="/players"
+                    value="save player" />
+
+                    {/* I'll add this back in if I ever figure out how to make the edit
+                    button do anything useful (and I haven't moved on to something more useful) */}
+              {/* {
                 isNew ?
                   <input
                     type="submit"
@@ -180,8 +203,25 @@ class Player extends React.Component {
                     href="/players"
                     value="save player" />
                   : ''
-              }
-              <a className="link-button player-link-button" href="/players">player index</a>
+              } */}
+              <div className="form-link-buttons-wrapper">
+                <a className="link-button player-link-button" href="/players">player index</a>
+                <a className="link-button player-link-button edit-toggle-button" onClick={editClick()}>edit</a>
+              </div>
+              {/* {this.editMode ?
+                <input
+                  type="submit"
+                  className="save-button edit-save-button"
+                  href="/players"
+                  value="save player" />
+                : ''
+                // <input
+                //   disabled
+                //   type="submit"
+                //   className="save-button edit-save-button"
+                //   href="/players"
+                //   value="save player" />
+              } */}
             </div>
           </form>
         </div>

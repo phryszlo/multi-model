@@ -13,12 +13,12 @@ class Index extends React.Component {
           <table className="map-table">
             <thead>
               <tr>
-                <th></th>
                 <th>name</th>
                 <th>class</th>
                 <th>level</th>
                 <th>vehicles</th>
                 <th>weapons</th>
+                <th></th>
               </tr>
             </thead>
             {
@@ -26,24 +26,17 @@ class Index extends React.Component {
                 return (
 
                   <tr key={`tr-${index}`}>
-                    <td key={`td-1-${index}`} data-id={player.id} className="td delete-field">
-                      <form
-                        action={`/player/${player.id}?_method=DELETE`}
-                        className="delete-player-form"
-                        method="POST">
-                          <input type="submit" value="delete" className="btn-delete" />
-                      </form>
-                    </td>
+
                     <td key={`td-${index}`} data-id={player.id} className="td name-field">
                       <a className="td-link" href={`/player/${player.id}`}>{player.name}</a>
                     </td>
                     <td key={`td0-${index}`} className="td class-field">
                       {player.class}
                     </td>
-                    <td key={`td1-${index}`} className="td level-field">
+                    <td key={`td1-${index}`} className="td td-num level-field">
                       {player.level}
                     </td>
-                    <td key={`td2-${index}`} className="td vehicles-field">
+                    <td key={`td2-${index}`} className="td td-num vehicles-field">
                       {player.vehicles.length}
                       {/* {player.vehicles && player.vehicles.length > 0 ?
                       <ul className="vehicle-sublist">
@@ -59,7 +52,7 @@ class Index extends React.Component {
                       : <div className="no-weapons">player has no vehicles</div>} */}
 
                     </td>
-                    <td key={`td2-${index}`} className="td weapons-field">
+                    <td key={`td2-${index}`} className="td td-num weapons-field">
                       {player.weapons.length}
                       {/* {player.vehicles && player.vehicles.length > 0 ?
                       <ul className="vehicle-sublist">
@@ -75,7 +68,14 @@ class Index extends React.Component {
                       : <div className="no-weapons">player has no vehicles</div>} */}
 
                     </td>
-
+                    <td key={`td-1-${index}`} data-id={player.id} className="td delete-field">
+                      <form
+                        action={`/player/${player.id}?_method=DELETE`}
+                        className="delete-player-form"
+                        method="POST">
+                          <input type="submit" value="delete" className="btn-delete" />
+                      </form>
+                    </td>
                   </tr>
                 )
               })

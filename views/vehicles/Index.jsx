@@ -13,25 +13,18 @@ class Index extends React.Component {
           <table className="map-table">
             <thead>
               <tr>
-                <th></th>
                 <th>class</th>
                 <th>make</th>
                 <th>model</th>
                 <th>owners</th>
+                <th></th>
               </tr>
             </thead>
             {
               vehicles.map((vehicle, index) => {
                 return (
                   <tr key={`tr-${index}`}>
-                    <td key={`td-1-${index}`} data-id={vehicle.id} className="td delete-field">
-                      <form
-                        action={`/vehicle/${vehicle.id}?_method=DELETE`}
-                        className="delete-vehicle-form"
-                        method="POST">
-                        <input type="submit" value="delete" className="btn-delete" />
-                      </form>
-                    </td>
+
                     <td key={`td-${index}`} data-id={vehicle.id} className="td class-field">
                       <a className="td-link" href={`/vehicle/${vehicle.id}`}>{vehicle.class}</a>
                     </td>
@@ -44,7 +37,14 @@ class Index extends React.Component {
                     <td key={`td2-${index}`} className="td owners-field" style={{ fontSize: "12px" }}>
                       not implemented
                     </td>
-
+                    <td key={`td-1-${index}`} data-id={vehicle.id} className="td delete-field">
+                      <form
+                        action={`/vehicle/${vehicle.id}?_method=DELETE`}
+                        className="delete-vehicle-form"
+                        method="POST">
+                        <input type="submit" value="delete" className="btn-delete" />
+                      </form>
+                    </td>
                   </tr>
                 )
               })

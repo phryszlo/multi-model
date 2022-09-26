@@ -294,9 +294,19 @@ app.get('/player/:id', async (req, res) => {
 });
 
 
+app.put('/player/:id', async (req, res) => {
+  await Players.findByIdAndUpdate(req.params.id, req.body)
+    .then ((updatedPlayer) => {
+      res.redirect('players');
+    })
+    .catch ((err) => {
+      res.json(err);
+    })
+})
 
 
-app.patch('/player/:id/new-vehicle/:vid', async (req, res) => {
+
+app.put('/player/:id/new-vehicle/:vid', async (req, res) => {
   await Players.findByIdAndUpdate(req.params.id,
     { $push: { vehicles: req.params.vid } },
     { new: true, useFindAndModify: false })

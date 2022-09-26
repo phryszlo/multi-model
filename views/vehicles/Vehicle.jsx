@@ -69,7 +69,7 @@ class vehicle extends React.Component {
 
             {/* ☣️☣️☣️☣️☣️☣️☣️☣️ BUTTONS ☣️☣️☣️☣️☣️☣️☣️☣️ */}
 
-            <div className="bottom-link-buttons-wrapper">
+            <div className="form-controls-wrapper">
               {
                 isNew ?
                   <input

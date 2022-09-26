@@ -1,6 +1,8 @@
 const btnSeed = document.querySelector('.nav-btn-seed');
 const seedPicker = document.querySelector('.seed-picker');
 const seederForm = document.querySelector('.seeder-form');
+const editSaveButton = document.querySelector('.edit-save-button');
+const editToggleButton = document.querySelector('.edit-toggle-button');
 
 window.addEventListener('DOMContentLoaded', () => {
   seedPicker.addEventListener('change', async () => {
@@ -34,4 +36,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
     seederForm.setAttribute('action', action);
   });
+
+
+  // editToggleButton.addEventListener('click', () => {
+  //   if (editSaveButton.getAttribute('disabled').length > 0) {
+  //     console.log('disabled found');
+  //     editSaveButton.removeAttribute('disabled');
+  //   }
+  //   else {
+  //     console.log('disabled found');
+
+  //     editSaveButton.setAttribute('disabled', '');
+  //   }
+  //   console.log('skipped right over');
+
+  //   // document.querySelectorAll
+  // })
+
 });

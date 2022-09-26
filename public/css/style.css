@@ -178,11 +178,18 @@ body {
   width: 7em;
   padding: .3em;
 }
+.td-num {
+  text-align: center;
+}
 .damage-field {
   text-align: center;
 }
 .delete-field {
   text-align: center;
+}
+.owners-field {
+  opacity: .6;
+  color: red;
 }
 .btn-delete {
   background-color: #2468;
@@ -211,13 +218,18 @@ body {
   width: 96%;
 }
 
-.bottom-link-buttons-wrapper {
+.form-controls-wrapper {
   display: flex;
   flex-direction: column;
   margin-top: 1em;
 }
+.form-link-buttons-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
 
 .link-button {
+  cursor: pointer;
   display: block;
   margin-top: 1em;
   text-decoration: none;
@@ -247,6 +259,26 @@ body {
 .save-button:hover {
   color: var(--color0);
   border: .5px solid var(--color0);
+}
+/* override the hover if disabled */
+.save-button[disabled]:hover {
+  color: var(--color2);
+  border: .5px solid var(--color2);
+}
+
+.edit-toggle-button {
+  opacity: .5;
+  text-decoration: line-through;
+}
+.edit-toggle-button::before {
+  content: '🚫  ';
+  color: red;
+  opacity: 1;
+}
+.edit-toggle-button::after {
+  content: '  🚫';
+  color: red;
+  opacity: 1;
 }
 
 
