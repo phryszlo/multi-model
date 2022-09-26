@@ -8,11 +8,12 @@ class Index extends React.Component {
     return (
       <DefaultLayout title="vehicles">
 
-        <div className="layout-wrapper">
+        <div className="map-table-wrapper">
           <h1 className='head-title'>the vehicles</h1>
-          <table className="vehicle-map">
+          <table className="map-table">
             <thead>
               <tr>
+                <th></th>
                 <th>class</th>
                 <th>make</th>
                 <th>model</th>
@@ -23,8 +24,16 @@ class Index extends React.Component {
               vehicles.map((vehicle, index) => {
                 return (
                   <tr key={`tr-${index}`}>
+                    <td key={`td-1-${index}`} data-id={vehicle.id} className="td delete-field">
+                      <form
+                        action={`/vehicle/${vehicle.id}?_method=DELETE`}
+                        className="delete-vehicle-form"
+                        method="POST">
+                        <input type="submit" value="delete" className="btn-delete" />
+                      </form>
+                    </td>
                     <td key={`td-${index}`} data-id={vehicle.id} className="td class-field">
-                      <a className="td-link" href={`/vehicle/${vehicle.id}`}>{vehicle.class}</a> 
+                      <a className="td-link" href={`/vehicle/${vehicle.id}`}>{vehicle.class}</a>
                     </td>
                     <td key={`td0-${index}`} className="td make-field">
                       {vehicle.make}
@@ -32,7 +41,7 @@ class Index extends React.Component {
                     <td key={`td1-${index}`} className="td model-field">
                       {vehicle.model}
                     </td>
-                    <td key={`td2-${index}`} className="td owners-field" style={{fontSize: "12px"}}>
+                    <td key={`td2-${index}`} className="td owners-field" style={{ fontSize: "12px" }}>
                       not implemented
                     </td>
 
@@ -42,6 +51,10 @@ class Index extends React.Component {
             }
             <tfoot></tfoot>
           </table>
+          <a
+            className="link-button vehicle-link-button"
+            href="/vehicle/new">new vehicle
+          </a>
         </div>
 
       </DefaultLayout >

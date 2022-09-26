@@ -8,9 +8,9 @@ class Index extends React.Component {
     return (
       <DefaultLayout title="players">
 
-        <div className="layout-wrapper">
+        <div className="map-table-wrapper">
           <h1 className='head-title'>the players</h1>
-          <table className="player-map">
+          <table className="map-table">
             <thead>
               <tr>
                 <th></th>
@@ -28,7 +28,7 @@ class Index extends React.Component {
                   <tr key={`tr-${index}`}>
                     <td key={`td-1-${index}`} data-id={player.id} className="td delete-field">
                       <form
-                        action={`/player//delete/${player.id}?_method=DELETE`}
+                        action={`/player/${player.id}?_method=DELETE`}
                         className="delete-player-form"
                         method="POST">
                           <input type="submit" value="delete" className="btn-delete" />

@@ -171,10 +171,10 @@ class Player extends React.Component {
 
             {/* ☣️☣️☣️☣️☣️☣️☣️☣️ BUTTONS ☣️☣️☣️☣️☣️☣️☣️☣️ */}
 
-            <div className="player-link-button-wrapper">
+            <div className="bottom-link-buttons-wrapper">
               {
                 isNew ?
-                  <input t
+                  <input
                     type="submit"
                     className="save-button"
                     href="/players"

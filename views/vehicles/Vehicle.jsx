@@ -69,10 +69,10 @@ class vehicle extends React.Component {
 
             {/* ☣️☣️☣️☣️☣️☣️☣️☣️ BUTTONS ☣️☣️☣️☣️☣️☣️☣️☣️ */}
 
-            <div className="vehicle-link-button-wrapper">
+            <div className="bottom-link-buttons-wrapper">
               {
                 isNew ?
-                  <input t
+                  <input
                     type="submit"
                     className="save-button"
                     href="/vehicles"

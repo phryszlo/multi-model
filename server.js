@@ -283,7 +283,9 @@ app.delete('/player/:id', async (req, res) => {
 // =========PLAYER: GET ONE BY ID ============
 app.get('/player/:id', async (req, res) => {
 
-  await Players.findById(req.params.id).populate("vehicles")
+  await Players.findById(req.params.id)
+    .populate("vehicles")
+    .populate("weapons")
     .then((result) => {
       res.render('players/Player', {
         player: result,
@@ -321,6 +323,20 @@ app.get('/weapons', (req, res) => {
   });
 })
 
+app.get('/weapon/new', (req, res) => {
+  res.render('weapons/Weapon');
+})
+
+app.post('/weapon', async (req, res) => {
+  await Weapons.create(req.body)
+    .then((newVehicle) => {
+      res.redirect('/weapons');
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+})
+
 
 app.get('/weapon/:id', async (req, res) => {
   await Weapons.findById(req.params.id)
@@ -331,6 +347,16 @@ app.get('/weapon/:id', async (req, res) => {
     })
     .catch((err) => {
       res.json();
+    })
+})
+
+app.post('/weapon', async (req, res) => {
+  await Weapons.create(req.body)
+    .then((newWeapon) => {
+      res.redirect('/weapons');
+    })
+    .catch((err) => {
+      res.json(err);
     })
 })
 
@@ -356,6 +382,20 @@ app.get('/vehicles', async (req, res) => {
     .catch((err) => {
       res.json(err);
     });
+})
+
+app.get('/vehicle/new', (req, res) => {
+  res.render('vehicles/Vehicle');
+})
+
+app.post('/vehicle', async (req, res) => {
+  await Vehicles.create(req.body)
+    .then((newVehicle) => {
+      res.redirect('/vehicles');
+    })
+    .catch((err) => {
+      res.json(err);
+    })
 })
 
 app.delete('/vehicle/:id', async (req, res) => {
